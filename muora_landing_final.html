@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뭐라 보낼까</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --pink: #D4537E;
+  --pink-light: #fdf0f4;
+  --yellow: #FAE100;
+  --font: 'Pretendard', -apple-system, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: #fff; color: #111; overflow-x: hidden; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 80px 28px 60px;
+  background: var(--pink);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute;
+  width: 480px; height: 480px; border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  bottom: -120px; right: -80px; z-index: 0;
+}
+.hero::after {
+  content: ''; position: absolute;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  top: -60px; left: 60px; z-index: 0;
+}
+.hero-bubble-wrap {
+  position: relative; display: inline-block;
+  transform: rotate(-6deg); z-index: 2; margin-bottom: 48px;
+}
+.hero-bubble {
+  background: #fff; border-radius: 36px;
+  padding: clamp(24px,4vw,48px) clamp(36px,6vw,72px);
+  font-size: clamp(34px, 6vw, 68px);
+  font-weight: 900; color: var(--pink);
+  letter-spacing: -0.02em; white-space: nowrap;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  position: relative;
+}
+.hero-bubble::after {
+  content: ''; position: absolute; bottom: -14px; left: 52px;
+  width: 0; height: 0;
+  border-left: 15px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 16px solid #fff;
+}
+.avatar-pin {
+  position: absolute;
+  display: flex; flex-direction: column; align-items: center; z-index: 3;
+}
+.pin-circle {
+  width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+.pin-tail { width: 0; height: 0; margin-top: -2px;
+  border-left: 9px solid transparent; border-right: 9px solid transparent;
+}
+.pin1 { top: -38px; right: -22px; }
+.pin1 .pin-circle { background: #4DD6A0; }
+.pin1 .pin-tail { border-top: 14px solid #4DD6A0; }
+.pin2 { bottom: -36px; left: -18px; }
+.pin2 .pin-circle { background: #ff8a80; }
+.pin2 .pin-tail { border-top: 14px solid #ff8a80; }
+
+.hero h1 {
+  font-size: clamp(34px, 5.5vw, 66px);
+  font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.03em; color: #fff;
+  margin-bottom: 14px; position: relative; z-index: 1;
+}
+.hero h1 em { font-style: normal; color: var(--yellow); }
+.hero-sub {
+  font-size: clamp(14px, 2vw, 17px);
+  color: rgba(255,255,255,0.72); line-height: 1.7;
+  margin-bottom: 32px; position: relative; z-index: 1;
+}
+.email-row {
+  display: flex; gap: 8px;
+  width: 100%; max-width: 420px;
+  position: relative; z-index: 1; margin-bottom: 12px;
+}
+.email-input {
+  flex: 1; height: 52px; border-radius: 100px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.15);
+  padding: 0 20px; font-size: 14px; font-family: var(--font);
+  color: #fff; outline: none; transition: border-color 0.2s;
+}
+.email-input:focus { border-color: rgba(255,255,255,0.8); }
+.email-input::placeholder { color: rgba(255,255,255,0.5); }
+.cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 52px; background: #fff; color: var(--pink);
+  font-size: 15px; font-weight: 700; padding: 0 24px;
+  border-radius: 100px; border: none; cursor: pointer;
+  text-decoration: none; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: var(--font); flex-shrink: 0;
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+.cta-note { font-size: 12px; color: rgba(255,255,255,0.45); position: relative; z-index: 1; }
+
+/* ── SECTION ── */
+.section {
+  padding: 90px 24px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.section-label {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pink); margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(26px, 4vw, 44px); font-weight: 900;
+  letter-spacing: -0.02em; text-align: center; line-height: 1.22; margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 15px; color: #666; text-align: center;
+  margin-bottom: 60px; line-height: 1.6;
+}
+
+/* ── MOCKUP ── */
+.mockup-scene {
+  display: flex; justify-content: center; align-items: center;
+  width: 100%; max-width: 760px; position: relative;
+}
+
+/* PC 양옆 말풍선 */
+.side-bubbles {
+  display: flex; flex-direction: column; flex: 1; max-width: 200px; gap: 0;
+}
+.side-left { align-items: flex-end; padding-right: 28px; }
+.side-right { align-items: flex-start; padding-left: 28px; }
+
+.float-bubble {
+  background: #fff; border-radius: 18px; padding: 14px 16px;
+  font-family: var(--font); color: #111; line-height: 1.5;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09); border: 1px solid rgba(0,0,0,0.05);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  max-width: 170px; word-break: keep-all;
+}
+.float-bubble.show { opacity: 1; transform: translateY(0); }
+.fb-icon { font-size: 20px; margin-bottom: 6px; }
+.fb-title { font-size: 13px; font-weight: 700; color: #111; }
+.fb-sub { font-size: 11px; color: #aaa; margin-top: 4px; }
+
+/* 모바일 오버레이 말풍선 */
+.phone-wrap { position: relative; flex-shrink: 0; padding-top: 52px; }
+.overlay-bubbles {
+  display: none;
+  position: absolute;
+  top: 60px; left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  pointer-events: none;
+  z-index: 10;
+}
+.ob {
+  position: absolute; background: #fff; border-radius: 14px;
+  padding: 10px 13px; font-size: 11px; font-family: var(--font);
+  color: #111; line-height: 1.45; word-break: keep-all;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.05);
+  opacity: 0; transform: scale(0.9);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  max-width: 130px;
+}
+.ob.show { opacity: 1; transform: scale(1); }
+.ob .fb-icon { font-size: 16px; margin-bottom: 4px; }
+.ob .fb-title { font-size: 11px; font-weight: 700; }
+.ob .fb-sub { font-size: 9px; color: #aaa; margin-top: 3px; }
+.ob1 { top: 20px; left: -20px; }
+.ob2 { top: 40px; right: -20px; }
+
+/* PHONE */
+.phone-frame {
+  width: 260px; height: 520px; background: #111;
+  border-radius: 44px; border: 7px solid #1e1e1e;
+  box-shadow: 0 0 0 1.5px #3a3a3a, 0 32px 80px rgba(0,0,0,0.18);
+  position: relative; overflow: hidden; z-index: 2;
+}
+.phone-notch {
+  width: 72px; height: 14px; background: #111;
+  border-radius: 0 0 12px 12px;
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10;
+}
+.phone-screen {
+  width: 100%; height: 100%; background: #f5f5f5;
+  border-radius: 38px; display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* 채팅방 헤더 */
+.chat-header {
+  background: #fff; padding: 28px 14px 10px;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0; border-bottom: 1px solid #eee;
+}
+.chat-header-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--pink-light);
+  font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.chat-header-info { display: flex; flex-direction: column; }
+.chat-header-title { font-size: 12px; font-weight: 700; color: #111; }
+.chat-header-sub { font-size: 9px; color: #aaa; margin-top: 1px; }
+
+/* 채팅 바디 */
+.chat-body {
+  flex: 1; padding: 12px 10px;
+  display: flex; flex-direction: column; gap: 8px; overflow: hidden;
+}
+
+/* 내 고민 말풍선 (노란색, 오른쪽) */
+.my-question-wrap {
+  display: flex; flex-direction: column; align-items: flex-end;
+}
+.my-question {
+  align-self: flex-end;
+  background: var(--yellow);
+  border-radius: 14px 4px 14px 14px;
+  padding: 9px 12px;
+  font-size: 11px; font-family: var(--font); line-height: 1.5; color: #111;
+  max-width: 85%;
+}
+.my-question-label {
+  font-size: 8.5px; color: #aaa; margin-bottom: 4px; font-weight: 600; text-align: right;
+}
+
+/* 구분선 */
+.divider {
+  display: flex; align-items: center; gap: 6px; margin: 4px 0;
+}
+.divider-line { flex: 1; height: 1px; background: #e0e0e0; }
+.divider-text { font-size: 8.5px; color: #bbb; white-space: nowrap; font-family: var(--font); }
+
+/* 조언 말풍선들 */
+.advice-bubble {
+  display: flex; align-items: flex-start; gap: 6px;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.advice-bubble.show { opacity: 1; transform: translateY(0); }
+.advice-avatar {
+  width: 22px; height: 22px; border-radius: 50%;
+  font-size: 12px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.advice-content { display: flex; flex-direction: column; gap: 2px; }
+.advice-nick { font-size: 8.5px; color: #aaa; font-family: var(--font); }
+.advice-text {
+  background: #fff; border-radius: 4px 14px 14px 14px;
+  padding: 7px 10px; font-size: 11px; font-family: var(--font);
+  line-height: 1.45; color: #222; max-width: 160px;
+}
+
+/* 투표 카드 */
+.vote-card {
+  background: #fff; border-radius: 12px; padding: 10px 12px;
+  margin: 0 4px; border: 1px solid #eee;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.vote-card.show { opacity: 1; transform: translateY(0); }
+.vote-title { font-size: 10px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.vote-options { display: flex; gap: 6px; }
+.vote-opt {
+  flex: 1; padding: 6px 4px; border-radius: 8px;
+  font-size: 9.5px; font-weight: 700; text-align: center;
+  font-family: var(--font);
+}
+.vote-opt.yes { background: var(--pink-light); color: var(--pink); }
+.vote-opt.no { background: #f5f5f5; color: #888; }
+.vote-pct { font-size: 11px; font-weight: 900; display: block; }
+
+/* 입력바 */
+.kakao-input-bar {
+  background: white; border-top: 1px solid #eee;
+  padding: 9px 12px; font-size: 11px; color: #aaa;
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.send-btn {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--pink);
+  display: flex; align-items: center; justify-content: center;
+}
+.send-btn::after {
+  content: ''; border: 4px solid transparent;
+  border-left: 6px solid white; margin-left: 2px;
+}
+
+.new-room-badge {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  background: #222; color: #fff; font-size: 12px; font-family: var(--font);
+  padding: 8px 18px; border-radius: 20px; white-space: nowrap;
+  opacity: 0; transition: opacity 0.5s ease; z-index: 10;
+}
+.new-room-badge.show { opacity: 1; }
+
+/* ── HOW IT WORKS ── */
+.how-section { padding: 90px 24px; background: #fff; }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 28px; max-width: 800px; margin: 0 auto; width: 100%;
+}
+.step-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+  padding: 28px; background: #fafafa; border-radius: 20px; border: 1px solid #f0f0f0;
+}
+.step-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--pink); color: #fff; font-size: 15px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-title { font-size: 16px; font-weight: 700; color: #111; }
+.step-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+/* ── BOTTOM CTA ── */
+.bottom-cta {
+  background: #FFF8F0; padding: 100px 24px; text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+.bottom-cta .tag {
+  font-size: 12px; color: var(--pink); font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;
+}
+.bottom-cta h2 {
+  font-size: clamp(28px, 5vw, 52px); font-weight: 900; color: #111;
+  letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px;
+}
+.bottom-cta h2 em { font-style: normal; color: var(--pink); }
+.bottom-cta .desc { font-size: 15px; color: #666; margin-bottom: 36px; line-height: 1.6; }
+.email-row-dark {
+  display: flex; gap: 8px; width: 100%; max-width: 440px; margin-bottom: 12px;
+}
+.email-input-dark {
+  flex: 1; height: 52px; border-radius: 100px;
+  border: 1.5px solid #e8d8cc; background: #fff;
+  padding: 0 20px; font-size: 14px; font-family: var(--font); color: #111;
+  outline: none; transition: border-color 0.2s;
+}
+.email-input-dark:focus { border-color: var(--pink); }
+.email-input-dark::placeholder { color: #bbb; }
+.cta-btn-dark {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 52px; background: var(--pink); color: #fff;
+  font-size: 15px; font-weight: 700; padding: 0 24px;
+  border-radius: 100px; border: none; cursor: pointer;
+  text-decoration: none; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: var(--font); flex-shrink: 0;
+}
+.cta-btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,83,126,0.3); }
+
+/* ── FADE ── */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  /* 히어로 높이 줄이기 */
+  .hero { min-height: unset; padding: 60px 24px 50px; }
+
+  /* 이메일 세로 스택 */
+  .email-row { flex-direction: column; gap: 10px; max-width: 100%; align-items: stretch; }
+  .email-input {
+    border-radius: 14px !important;
+    min-height: 56px !important;
+    height: 56px !important;
+    padding: 0 20px !important;
+    width: 100% !important;
+    font-size: 15px !important;
+    background: rgba(255,255,255,0.25) !important;
+    border: 1.5px solid rgba(255,255,255,0.6) !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+  .cta-btn { border-radius: 14px; height: 56px; width: 100%; font-size: 15px; padding: 0; }
+
+  /* 섹션 여백 축소 */
+  .section { padding: 48px 20px; }
+  .how-section { padding: 48px 20px; }
+  .bottom-cta { padding: 60px 20px; }
+  .section-sub { margin-bottom: 36px; }
+
+  /* 목업 */
+  .side-bubbles { display: none; }
+  .overlay-bubbles { display: block; }
+  .phone-frame { width: 230px; height: 460px; }
+  .mockup-scene { justify-content: center; }
+
+  /* 하단 CTA 이메일도 세로 스택 */
+  .email-row-dark { flex-direction: column; gap: 10px; max-width: 100%; align-items: stretch; }
+  .email-input-dark {
+    border-radius: 14px !important;
+    min-height: 56px !important;
+    height: 56px !important;
+    padding: 0 20px !important;
+    width: 100% !important;
+    font-size: 15px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+  .cta-btn-dark { border-radius: 14px; height: 56px; width: 100%; font-size: 15px; padding: 0; }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .side-bubbles { max-width: 140px; }
+  .float-bubble { max-width: 130px; }
+  .phone-frame { width: 230px; height: 460px; }
+}
+@media (min-width: 901px) {
+  .side-bubbles { max-width: 210px; }
+  .phone-frame { width: 300px; height: 600px; }
+  .my-question { font-size: 13px; }
+  .advice-text { font-size: 13px; }
+  .chat-header-title { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bubble-wrap">
+    <div class="avatar-pin pin1"><div class="pin-circle">🐯</div><div class="pin-tail"></div></div>
+    <div class="avatar-pin pin2"><div class="pin-circle">🐰</div><div class="pin-tail"></div></div>
+    <div class="hero-bubble">뭐라보낼까?</div>
+  </div>
+  <h1>보내기 전에,<br><em>물어보세요.</em></h1>
+  <p class="hero-sub">연락 하나, 말 한마디에 흔들리는 순간<br>혼자 고민하지 마세요.</p>
+  <form class="email-row" action="https://formspree.io/f/xreowpgp" method="POST">
+    <input class="email-input" type="email" name="email" placeholder="이메일을 입력하세요" required>
+    <button type="submit" class="cta-btn">제일 먼저 써보기</button>
+  </form>
+  <p class="cta-note">무료 · 베타 오픈 준비 중</p>
+</section>
+
+<!-- MOCKUP SECTION -->
+<section class="section">
+  <p class="section-label fade-up">실시간 조언</p>
+  <h2 class="section-title fade-up">친구 답장 기다리지 말고,<br>바로 올려보세요</h2>
+  <p class="section-sub fade-up">여러 명의 사람들이 답장을 도와줘요.</p>
+
+  <div class="mockup-scene fade-up">
+    <!-- 왼쪽 말풍선 -->
+    <div class="side-bubbles side-left">
+      <div class="float-bubble" id="b1">
+        <div class="fb-icon">💬</div>
+        <div class="fb-title">실시간 조언이 달려요</div>
+        <div class="fb-sub">여러 명이 바로 답해줘요</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="new-room-badge" id="newBadge">새로운 채팅방이 생성되었습니다!</div>
+
+      <!-- 모바일 오버레이 -->
+      <div class="overlay-bubbles">
+        <div class="ob ob1" id="ob1">
+          <div class="fb-icon">💬</div>
+          <div class="fb-title">실시간 조언이 달려요</div>
+          <div class="fb-sub">여러 명이 바로 답해줘요</div>
+        </div>
+        <div class="ob ob2" id="ob2">
+          <div class="fb-icon">🗳️</div>
+          <div class="fb-title">투표 기능이 있어요</div>
+          <div class="fb-sub">ㄱㄱ vs ㄴㄴ 바로 확인</div>
+        </div>
+      </div>
+
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- 채팅방 헤더 -->
+          <div class="chat-header">
+            <div class="chat-header-icon">💌</div>
+            <div class="chat-header-info">
+              <div class="chat-header-title">썸남한테 보낼 답장 추천</div>
+              <div class="chat-header-sub">12명 참여 중</div>
+            </div>
+          </div>
+
+          <!-- 채팅 바디 -->
+          <div class="chat-body">
+            <!-- 내 고민 -->
+            <div class="my-question-wrap">
+              <div class="my-question-label">내 고민</div>
+              <div class="my-question">잘 들어갔어? ㅎㅎ<br>이렇게 보내도 됨?</div>
+            </div>
+
+            <!-- 구분선 -->
+            <div class="divider">
+              <div class="divider-line"></div>
+              <div class="divider-text">💬 조언이 달리고 있어요</div>
+              <div class="divider-line"></div>
+            </div>
+
+            <!-- 조언들 -->
+            <div class="advice-bubble" id="a1">
+              <div class="advice-avatar" style="background:#fde8ef;">🐱</div>
+              <div class="advice-content">
+                <div class="advice-nick">설레는오리</div>
+                <div class="advice-text">ㄱㄱ 자연스러워 보내!</div>
+              </div>
+            </div>
+
+            <div class="advice-bubble" id="a2">
+              <div class="advice-avatar" style="background:#e8f4fd;">🐻</div>
+              <div class="advice-content">
+                <div class="advice-nick">분홍토끼</div>
+                <div class="advice-text">좀 더 짧게 보내는 게 나을 것 같아</div>
+              </div>
+            </div>
+
+            <!-- 투표 카드 -->
+            <div class="vote-card" id="vc1">
+              <div class="vote-title">🗳️ 지금 바로 보낼까?</div>
+              <div class="vote-options">
+                <div class="vote-opt yes"><span class="vote-pct">78%</span>ㄱㄱ 보내</div>
+                <div class="vote-opt no"><span class="vote-pct">22%</span>ㄴㄴ 참아</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kakao-input-bar">
+            <span>조언 달기...</span>
+            <div class="send-btn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 오른쪽 말풍선 -->
+    <div class="side-bubbles side-right">
+      <div class="float-bubble" id="b2">
+        <div class="fb-icon">🗳️</div>
+        <div class="fb-title">투표 기능이 있어요</div>
+        <div class="fb-sub">ㄱㄱ vs ㄴㄴ 바로 확인</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section section">
+  <p class="section-label fade-up">사용법</p>
+  <div style="position:relative; display:inline-block; margin-bottom:48px;">
+    <h2 class="section-title fade-up" style="margin-bottom:0;">3단계면 끝</h2>
+    <div style="position:absolute; top:-36px; right:-52px; display:flex; flex-direction:column; align-items:center; z-index:2;">
+      <div style="width:44px; height:44px; border-radius:50%; background:#ff8a80; display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:0 4px 14px rgba(0,0,0,0.13);">🐰</div>
+      <div style="width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-top:12px solid #ff8a80; margin-top:-2px;"></div>
+    </div>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card fade-up">
+      <div class="step-num">1</div>
+      <div class="step-title">상황 올리기</div>
+      <div class="step-desc">카톡 캡처나 상황 설명만 올리세요</div>
+    </div>
+    <div class="step-card fade-up" style="transition-delay:0.1s;">
+      <div class="step-num">2</div>
+      <div class="step-title">사람들이 바로 들어옴</div>
+      <div class="step-desc">비슷한 연애 해본 사람들이 실시간으로 답해줘요</div>
+    </div>
+    <div class="step-card fade-up" style="transition-delay:0.2s;">
+      <div class="step-num">3</div>
+      <div class="step-title">보내기 전에 결정</div>
+      <div class="step-desc">여러 명 의견 듣고 자신 있게 보내세요</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <div class="tag fade-up">그래서 나온 서비스, 뭐라보낼까?</div>
+  <h2 class="fade-up">혼자 고민하던 그 순간,<br><em>이제 같이해요</em></h2>
+  <p class="desc fade-up">지금 고민하고 있는 그 카톡, 여기 올려보세요.</p>
+  <form class="email-row-dark fade-up" action="https://formspree.io/f/xreowpgp" method="POST">
+    <input class="email-input-dark" type="email" name="email" placeholder="이메일을 입력하세요" required>
+    <button type="submit" class="cta-btn-dark">제일 먼저 써보기</button>
+  </form>
+  <p style="font-size:12px; color:#aaa; margin-top:12px;" class="fade-up">무료 · 베타 오픈 준비 중</p>
+</section>
+
+<script>
+// Formspree AJAX 제출 처리
+document.querySelectorAll('form[action*="formspree"]').forEach(form => {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = '전송 중...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        btn.textContent = '✓ 등록 완료!';
+        btn.style.background = btn.style.background || '';
+        form.querySelector('input[type="email"]').value = '';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }, 3000);
+      } else {
+        btn.textContent = '다시 시도해주세요';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = '다시 시도해주세요';
+      btn.disabled = false;
+    }
+  });
+});
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+function resetMockup() {
+  document.getElementById('newBadge').classList.remove('show');
+  ['a1','a2','vc1'].forEach(id => document.getElementById(id).classList.remove('show'));
+  ['b1','b2'].forEach(id => document.getElementById(id).classList.remove('show'));
+  ['ob1','ob2'].forEach(id => document.getElementById(id).classList.remove('show'));
+}
+
+function runMockup() {
+  resetMockup();
+  setTimeout(() => document.getElementById('newBadge').classList.add('show'), 600);
+  setTimeout(() => {
+    document.getElementById('a1').classList.add('show');
+    document.getElementById('b1').classList.add('show');
+    document.getElementById('ob1').classList.add('show');
+  }, 1800);
+  setTimeout(() => document.getElementById('a2').classList.add('show'), 2800);
+  setTimeout(() => {
+    document.getElementById('vc1').classList.add('show');
+    document.getElementById('b2').classList.add('show');
+    document.getElementById('ob2').classList.add('show');
+  }, 3700);
+  setTimeout(runMockup, 7500);
+}
+setTimeout(runMockup, 800);
+</script>
+</body>
+</html>
